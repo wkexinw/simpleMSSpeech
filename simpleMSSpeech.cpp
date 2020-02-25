@@ -12,6 +12,7 @@ using namespace std;
 
 int main()
 {
+	//read speech text
 	ifstream input("./speech.txt", ios::in);
 	stringstream buffer;
 	buffer << input.rdbuf();
@@ -21,6 +22,9 @@ int main()
 	411		jpanese
 	809		chinese
 	409		english
+
+	speech speed
+	-10 ~ 10
 	*/
 	string speech= "<VOICE REQUIRED='LANGUAGE=411' /><rate absspeed='-2' />" + contents;
 
@@ -40,18 +44,30 @@ int main()
 
 	ISpVoice * pVoice = NULL;
 
+	
 	//COM initial   
+	
 	if (FAILED(::CoInitialize(NULL)))
+		
 		return FALSE;
 
+	
 	//get ISpVoice interface   
+	
 	HRESULT hr = CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void **)&pVoice);
+	
 	if (SUCCEEDED(hr))
 	{
+		
 		hr = pVoice->Speak(wc, SPF_DEFAULT | SPF_IS_XML, NULL);
-		pVoice->Release();
-		pVoice = NULL;
+		
+
 	}
+
+	pVoice->Release();
+		
+	pVoice = NULL;
+	
 
 	return 0;
 }
